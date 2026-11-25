@@ -7,7 +7,6 @@ import MobileBottomNav from './MobileBottomNav';
 import MobileHeader from './MobileHeader';
 import { PAGE_CONTAINER_CLASS } from './page-container';
 import { ScrollToTopButton } from './ScrollToTopButton';
-import { SiteFooter } from './SiteFooter';
 import TopNav from './TopNav';
 
 export interface MobileHeaderConfig {
@@ -38,8 +37,6 @@ const PageLayout = ({
   const showDesktopBack = showDesktopBackOverride ?? activePath === '/live';
   const isPlayerPage = contentMode === 'player' || activePath === '/play';
   const showBottomNav = !['/play', '/live'].includes(activePath);
-  // 免责声明只放在首页底部，播放页保持沉浸
-  const showFooter = !isPlayerPage && activePath === '/';
   const showScrollToTop =
     !isPlayerPage &&
     (activePath === '/' ||
@@ -97,19 +94,14 @@ const PageLayout = ({
                       : hasChannelHeader
                         ? 'mt-[calc(5.5rem+env(safe-area-inset-top))]'
                         : 'mt-[calc(3rem+env(safe-area-inset-top))]'
-                  } mb-0 ${showFooter ? 'flex flex-col' : ''} ${
+                  } mb-0 ${
                     showBottomNav
                       ? 'pb-[calc(3.5rem+env(safe-area-inset-bottom))] md:pb-[env(safe-area-inset-bottom)]'
                       : 'pb-[env(safe-area-inset-bottom)]'
                   }`
             }`}
           >
-            {showFooter ? (
-              <>
-                <div className='flex-1'>{children}</div>
-                <SiteFooter />
-              </>
-            ) : isPlayerPage ? (
+            {isPlayerPage ? (
               <div className='min-h-0 flex-1 overflow-hidden'>{children}</div>
             ) : (
               children
